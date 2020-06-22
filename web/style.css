@@ -27,7 +27,7 @@ body {
 }
 
 .page-body {
-	white-space: pre-line;
+	line-height: 2;
 }
 
 a,
