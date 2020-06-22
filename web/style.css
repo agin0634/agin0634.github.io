@@ -13,15 +13,21 @@ body {
 }
 @media only screen {
 	body {
-		margin: 2em auto;
+		/*margin: 2em auto;*/
+		margin: 0em auto;
 		max-width: 900px;
 		color: rgb(55, 53, 47);
 	}
 }
 
 body {
-	line-height: 1.5;
-	white-space: pre-wrap;
+	/*line-height: 1.5;*/
+	/*white-space: pre-wrap;*/
+	/*white-space: pre-line;*/
+}
+
+.page-body {
+	white-space: pre-line;
 }
 
 a,
@@ -47,7 +53,7 @@ h3 {
 .page-title {
 	font-size: 2.5rem;
 	font-weight: 700;
-	margin-top: 0;
+	margin-top: 1em;
 	margin-bottom: 0.75em;
 }
 
