@@ -5,8 +5,11 @@
    [UE4/OPENCV] 通過OPENCV讀取攝像頭畫面
   </title>
   <link href="https://agin0634.github.io/web/style.css" rel="stylesheet"/>
+  <link href="https://agin0634.github.io/web/google-code-prettify/prettify.css" rel="stylesheet" type="text/css"/>
+  <script src="https://agin0634.github.io/web/google-code-prettify/prettify.js" type="text/javascript">
+  </script>
  </head>
- <body>
+ <body onload="PR.prettyPrint()">
   <article class="page sans" id="eba8c297-d298-4b5a-bd79-b54b26fb3527">
    <header>
     <img class="page-cover-image" src="https://live.staticflickr.com/65535/49972266056_ffd94f728d_z.jpg" style="object-position:center 18.54%"/>
@@ -165,22 +168,22 @@
      </a>
      '
     </p>
-    <pre class="code" id="4f716b84-e6bd-47e8-bdfa-c36606678271"><code>using System.IO;</code></pre>
+    <pre class="prettyprint" id="4f716b84-e6bd-47e8-bdfa-c36606678271"><code>using System.IO;</code></pre>
     <p class="" id="35e9bf72-3bfc-4e8c-bab8-de30eddad751">
      在ModuleRules class中宣告'ThirdPartyPath'並獲取路徑
     </p>
-    <pre class="code" id="caa889b0-df96-47d6-a3c6-0dc6f54c29cd"><code>private string ThirdPartyPath
+    <pre class="prettyprint" id="caa889b0-df96-47d6-a3c6-0dc6f54c29cd"><code>private string ThirdPartyPath
     {
         get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "../../ThirdParty")); }
     }</code></pre>
     <p class="" id="acd72b64-ecd0-4815-9ab0-d3690bf6b277">
      在PrivateDependencyModule中加入'RHI'、'RenderCore'，後面FUpdateTextureRegion2D才有辦法使用
     </p>
-    <pre class="code" id="dbf5373c-df80-411b-9c64-620f302dabcb"><code>PrivateDependencyModuleNames.AddRange(new string[] { "RHI", "RenderCore" });</code></pre>
+    <pre class="prettyprint" id="dbf5373c-df80-411b-9c64-620f302dabcb"><code>PrivateDependencyModuleNames.AddRange(new string[] { "RHI", "RenderCore" });</code></pre>
     <p class="" id="23e51240-e181-4463-adf1-4d7b746797cf">
      最後在Constructor添加獲取第三方庫代碼
     </p>
-    <pre class="code" id="f5987b62-c1f8-4f62-a12f-5ddb1c83f912"><code>string OpenCVPath = Path.Combine(ThirdPartyPath, "OpenCV");
+    <pre class="prettyprint" id="f5987b62-c1f8-4f62-a12f-5ddb1c83f912"><code>string OpenCVPath = Path.Combine(ThirdPartyPath, "OpenCV");
 
 if (Target.Platform == UnrealTargetPlatform.Win64)
         {
@@ -203,7 +206,7 @@ if (Target.Platform == UnrealTargetPlatform.Win64)
     <p class="" id="82ca117d-1a68-463b-80ce-43e9815ada7b">
      **若編譯出現錯誤，請確認路徑及OpenCV版本是否正確
     </p>
-    <pre class="code" id="f6bc4356-f0be-4cec-b852-95448141306e"><code>using System.IO;
+    <pre class="prettyprint" id="f6bc4356-f0be-4cec-b852-95448141306e"><code>using System.IO;
 using UnrealBuildTool;
 
 public class CV : ModuleRules
@@ -296,7 +299,7 @@ public class CV : ModuleRules
     <h3 class="" id="cef66bd7-c9e9-4737-8380-ea6077505195">
      Header
     </h3>
-    <pre class="code" id="f56d3390-0139-43bc-9e90-ef6ed3360ee1"><code>// Fill out your copyright notice in the Description page of Project Settings.
+    <pre class="prettyprint" id="f56d3390-0139-43bc-9e90-ef6ed3360ee1"><code>// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -385,7 +388,7 @@ protected:
     <h3 class="" id="0380e612-cf7c-4f85-85f7-943f80b04162">
      Source
     </h3>
-    <pre class="code" id="c3df2b10-100f-44a7-8910-a51d6165e9a1"><code>// Fill out your copyright notice in the Description page of Project Settings.
+    <pre class="prettyprint" id="c3df2b10-100f-44a7-8910-a51d6165e9a1"><code>// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "WebCamReader.h"
 #include "CV.h" 
