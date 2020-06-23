@@ -3,11 +3,11 @@
     background: #1d1f21;
     font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
     border-radius: 3px;
-	padding: 0.2em 0.4em;
-	border-radius: 3px;
-	font-size: 85%;
-	tab-size: 2;
-	overflow: auto;
+    padding: 0.8em 0.8em;
+    border-radius: 3px;
+    font-size: 100%;
+    tab-size: 2;
+    overflow: auto;
   }
   
   .pln {
