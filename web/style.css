@@ -131,6 +131,7 @@ img {
 
 .collection-content {
 	font-size: 0.875rem;
+	width: -webkit-fill-available;
 }
 
 .column-list {
@@ -148,6 +149,10 @@ img {
 
 .column:last-child {
 	padding-right: 0;
+}
+
+.properties {
+	width: 400px;
 }
 
 .table_of_contents-item {
@@ -178,7 +183,7 @@ img {
 table,
 th,
 td {
-	border: 1px solid rgba(55, 53, 47, 0.09);
+	border: 0px solid rgba(55, 53, 47, 0.09);
 	border-collapse: collapse;
 }
 
