@@ -26,6 +26,10 @@ body {
 	/*white-space: pre-line;*/
 }
 
+header {
+	margin-bottom: 20px;
+}
+
 .page-body {
 	line-height: 2;
 }
