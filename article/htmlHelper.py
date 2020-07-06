@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import os
 import shutil
+import string
 
 base = os.path.dirname(os.path.abspath(__file__))
 t_html = '''
@@ -30,12 +31,27 @@ for dirPath, dirNames, fileNames in os.walk(base):
                 for y in soup.find_all('pre'):
                     y['class']='prettyprint'
 
-            html = soup.contents
-            html = soup.prettify("utf-8")
-            with open(path, "wb") as file:
-                file.write(html)
+                FN, tmp = "", ""
+                for s in name:
+                    if s != " ":
+                        tmp += s.lower()
+                    else:
+                        if len(tmp) <= 25:
+                            FN += tmp
+                        tmp = "-"
+            
+                html = soup.contents
+                html = soup.prettify("utf-8")
+                with open(path, "wb") as file:
+                    file.write(html)
 
+                src = path
+                dst = os.path.join(base,FN+".html")
+                shutil.copy(src, dst)
+
+'''
 # create index.html
 src = index
 dst = os.path.join(base,"homepage.html")
 shutil.copy(src, dst)
+'''
