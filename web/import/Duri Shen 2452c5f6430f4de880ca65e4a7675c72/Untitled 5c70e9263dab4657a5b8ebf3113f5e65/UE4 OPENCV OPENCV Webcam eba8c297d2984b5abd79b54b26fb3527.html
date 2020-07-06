@@ -1,0 +1,931 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>[UE4/OPENCV] 通過OPENCV讀取Webcam畫面</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="eba8c297-d298-4b5a-bd79-b54b26fb3527" class="page sans"><header><img class="page-cover-image" src="https://live.staticflickr.com/65535/49972266056_ffd94f728d_z.jpg" style="object-position:center 18.54%"/><h1 class="page-title">[UE4/OPENCV] 通過OPENCV讀取Webcam畫面</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z"></path></svg></span>Created</th><td><time>@Jun 4, 2020 6:39 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td><span class="selected-value select-value-color-pink">C++</span><span class="selected-value select-value-color-gray">UE4</span></td></tr></tbody></table></header><div class="page-body"><blockquote id="b7cbc137-278a-445d-bcb5-a2ddf1f98ffa" class="">源文檔:
+<a href="https://wiki.unrealengine.com/Detailed_Account_Of_Integrating_OpenCV_Into_UE4_With_VS2017">https://wiki.unrealengine.com/Detailed_Account_Of_Integrating_OpenCV_Into_UE4_With_VS2017</a>
+流程主要參考這篇，但隨著版本更新，小部分代碼有了改變，因此寫下這篇作為紀錄
+以下使用UE4.22、OpenCV 3.4.6、VS2017</blockquote><h1 id="db5248a0-2e96-47ea-91d2-8ae3a1d42466" class="">下載OpenCV</h1><p id="6826d1df-9a87-4bd4-a0a8-2995c827ac01" class="">選擇自己的作業系統下載並解壓縮</p><figure id="dded0d7e-a313-4487-ba44-c1606320abbf"><a href="https://opencv.org/releases/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Releases</div></div><div class="bookmark-href"><img src="https://opencv.org/wp-content/uploads/2019/11/favicon.ico" class="icon bookmark-icon"/>https://opencv.org/releases/</div></div><img src="https://opencv.org/wp-content/uploads/2019/02/opencv-logo-1.png" class="bookmark-image"/></a></figure><h1 id="b56aac3e-7812-4fd9-a62b-78a9bbde7f3f" class="">複製OpenCV檔案至UE4 Project</h1><p id="68340a1d-7c18-4339-85db-2be21d9004bf" class="">打開UE4 launcher，建立一個新的C++ project，選擇basic code模板</p><p id="12fedb01-0500-418b-954f-dac79751a272" class="">在project檔案下建立一個新的資料夾<strong>&#x27;/ThirdParty&#x27;</strong></p><figure id="88008b5f-2e50-46c6-8945-9640c5c416cc" class="image"><a href="https://live.staticflickr.com/65535/49972177771_584ff72cf6_z.jpg"><img src="https://live.staticflickr.com/65535/49972177771_584ff72cf6_z.jpg"/></a></figure><p id="53255d5f-ec6a-48bb-9f49-5387364433d1" class="">再依照下圖依序建立資料夾</p><figure id="3b024de6-bf45-4f68-8285-7e677ea74365" class="image"><a href="https://live.staticflickr.com/65535/49972369503_66d5bec020_c.jpg"><img src="https://live.staticflickr.com/65535/49972369503_66d5bec020_c.jpg"/></a></figure><p id="72e8508c-5ea1-4433-b65f-314c0775262a" class="">複製剛剛解壓縮的OpenCV <strong>&#x27;/opencv/build/include&#x27;</strong>路徑中的所有檔案複製到</p><p id="853d703b-fbd3-4524-aea2-934770a810f2" class="">UE4 Project<strong> &#x27;/ThirdParty/OpenCV/Includes&#x27;</strong></p><p id="e81b6da5-e97d-4de8-9ca9-23658a6b5b30" class="">
+</p><p id="4bb3cecb-87e9-4855-b71b-433858c9ba2c" class="">接著複製OpenCV <strong>&#x27;/opencv/build/x64/vc14/lib&#x27;</strong>路徑中 <strong>&#x27;opencv_world346.lib&#x27;</strong></p><p id="abd7d61a-2890-4999-a1a3-46d16d7d2451" class="">及 <strong>&#x27;/opencv/build/x64/vc14/bin&#x27;</strong>路徑中<strong> &#x27;opencv_world346.dll&#x27;</strong>和 <strong>&#x27;opencv_ffmpeg346_64.dll&#x27;</strong>到</p><p id="2aa19872-177b-4134-b6d7-e45e799223bc" class="">UE4 Project <strong>&#x27;/ThirdParty/OpenCV/Libraries/Win64&#x27;</strong></p><h1 id="6cab9f43-c73d-4f29-b6e3-f18b75fc4354" class="">修改 ProjectName.build.cs</h1><p id="356b2210-9457-4c5f-b022-da6825dc57e7" class="">首先，include &#x27;<a href="http://system.io/">System.IO</a>&#x27;</p><pre id="4f716b84-e6bd-47e8-bdfa-c36606678271" class="code"><code>using System.IO;</code></pre><p id="35e9bf72-3bfc-4e8c-bab8-de30eddad751" class="">在ModuleRules class中宣告&#x27;ThirdPartyPath&#x27;並獲取路徑</p><pre id="caa889b0-df96-47d6-a3c6-0dc6f54c29cd" class="code"><code>private string ThirdPartyPath
+    {
+        get { return Path.GetFullPath(Path.Combine(ModuleDirectory, &quot;../../ThirdParty&quot;)); }
+    }</code></pre><p id="acd72b64-ecd0-4815-9ab0-d3690bf6b277" class="">在PrivateDependencyModule中加入&#x27;RHI&#x27;、&#x27;RenderCore&#x27;，後面FUpdateTextureRegion2D才有辦法使用</p><pre id="dbf5373c-df80-411b-9c64-620f302dabcb" class="code"><code>PrivateDependencyModuleNames.AddRange(new string[] { &quot;RHI&quot;, &quot;RenderCore&quot; });</code></pre><p id="23e51240-e181-4463-adf1-4d7b746797cf" class="">最後在Constructor添加獲取第三方庫代碼</p><pre id="f5987b62-c1f8-4f62-a12f-5ddb1c83f912" class="code"><code>string OpenCVPath = Path.Combine(ThirdPartyPath, &quot;OpenCV&quot;);
+
+if (Target.Platform == UnrealTargetPlatform.Win64)
+        {
+            string OpenCVIncludePath = Path.Combine(OpenCVPath, &quot;Includes&quot;);
+            string OpenCVLibPath = Path.Combine(OpenCVPath, &quot;Libraries&quot;, &quot;Win64&quot;);
+
+            PublicIncludePaths.Add(OpenCVIncludePath);
+            PublicLibraryPaths.Add(OpenCVLibPath);
+
+            //Add Static Libraries
+            PublicAdditionalLibraries.Add(&quot;opencv_world346.lib&quot;);
+            
+            //Add Dynamic Libraries
+            PublicDelayLoadDLLs.Add(&quot;opencv_world346.dll&quot;);
+            PublicDelayLoadDLLs.Add(&quot;opencv_ffmpeg346_64.dll&quot;);
+        }</code></pre><p id="7e017bbf-157e-4c36-975c-d5966e94eecb" class="">完整代碼如下:</p><p id="82ca117d-1a68-463b-80ce-43e9815ada7b" class="">**若編譯出現錯誤，請確認路徑及OpenCV版本是否正確</p><pre id="f6bc4356-f0be-4cec-b852-95448141306e" class="code"><code>using System.IO;
+using UnrealBuildTool;
+
+public class CV : ModuleRules
+{
+    private string ThirdPartyPath
+    {
+        get { return Path.GetFullPath(Path.Combine(ModuleDirectory, &quot;../../ThirdParty&quot;)); }
+    }
+
+    public CV(ReadOnlyTargetRules Target) : base(Target)
+    {
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+
+        PublicDependencyModuleNames.AddRange(new string[] { &quot;Core&quot;, &quot;CoreUObject&quot;, &quot;Engine&quot;, &quot;InputCore&quot; });
+
+        PrivateDependencyModuleNames.AddRange(new string[] { &quot;RHI&quot;, &quot;RenderCore&quot; });
+
+        // Uncomment if you are using Slate UI
+        // PrivateDependencyModuleNames.AddRange(new string[] { &quot;Slate&quot;, &quot;SlateCore&quot; });
+
+        // Uncomment if you are using online features
+        // PrivateDependencyModuleNames.Add(&quot;OnlineSubsystem&quot;);
+
+        // To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true
+
+        string OpenCVPath = Path.Combine(ThirdPartyPath, &quot;OpenCV&quot;);
+
+        if (Target.Platform == UnrealTargetPlatform.Win64)
+        {
+            string OpenCVIncludePath = Path.Combine(OpenCVPath, &quot;Includes&quot;);
+            string OpenCVLibPath = Path.Combine(OpenCVPath, &quot;Libraries&quot;, &quot;Win64&quot;);
+
+            PublicIncludePaths.Add(OpenCVIncludePath);
+            PublicLibraryPaths.Add(OpenCVLibPath);
+
+            //Add Static Libraries
+            PublicAdditionalLibraries.Add(&quot;opencv_world346.lib&quot;);
+            
+            //Add Dynamic Libraries
+            PublicDelayLoadDLLs.Add(&quot;opencv_world346.dll&quot;);
+            PublicDelayLoadDLLs.Add(&quot;opencv_ffmpeg346_64.dll&quot;);
+        }
+    }
+}</code></pre><h1 id="7e797617-258f-4c3a-8a68-8a85a4dc219f" class="">加入動態庫</h1><p id="9f0dcfcb-729b-47d6-8983-ffccb58d5a67" class="">將<strong>&#x27;opencv_world346.dll&#x27;</strong>和<strong>&#x27;opencv_ffmpeg346_64.dll&#x27;</strong>複製到</p><p id="419f2a5c-f62b-406f-9c32-4799e56162d6" class="">UE4 Project <strong>‘/Binaries/Win64’</strong></p><figure id="68d17a19-66b7-4c3f-86d1-f9c5816c4903" class="image"><a href="https://live.staticflickr.com/65535/49972457577_3ac8d9ba1c_z.jpg"><img src="https://live.staticflickr.com/65535/49972457577_3ac8d9ba1c_z.jpg"/></a></figure><h1 id="062296d6-155e-478f-804e-acf8fe6f8631" class="">配置Project屬性</h1><p id="f05996f1-0d08-47b7-9349-4e31371b710c" class="">右鍵項目屬性——NMake——IntelliSense——包含搜索路徑中添加<strong>&#x27;..\..\ThirdParty\OpenCV\Includes&#x27;</strong></p><figure id="ef39881b-8ba4-4df6-81b7-b69c7638bb5a" class="image"><a href="https://upload.cc/i1/2020/06/06/w9XI2W.png"><img style="width:336px" src="https://upload.cc/i1/2020/06/06/w9XI2W.png"/></a></figure><h1 id="8f0c86f3-a009-4a23-ae7c-c55b5064f1ec" class="">添加WebCamReader Class</h1><p id="cdf49414-8178-4ca1-a57e-74eb4568e276" class="">現在已經可以在UE4使用OpenCV庫了。新增一個C++ Class，繼承Actor並取名為&#x27;WebCamReader&#x27;。接著到VS添加以下代碼</p><h3 id="cef66bd7-c9e9-4737-8380-ea6077505195" class="">Header</h3><pre id="f56d3390-0139-43bc-9e90-ef6ed3360ee1" class="code"><code>// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include &quot;opencv2/core.hpp&quot;
+#include &quot;opencv2/highgui.hpp&quot; 
+#include &quot;opencv2/imgproc.hpp&quot;
+#include &quot;opencv2/videoio.hpp&quot;
+#include &quot;CoreMinimal.h&quot;
+#include &quot;GameFramework/Actor.h&quot;
+#include &quot;Runtime/Engine/Classes/Engine/Texture2D.h&quot;
+#include &quot;WebCamReader.generated.h&quot;
+
+UCLASS()
+class CV_API AWebCamReader : public AActor
+{
+ GENERATED_BODY()
+ 
+public: 
+ AWebCamReader();
+
+ virtual void BeginPlay() override;
+
+ virtual void Tick(float DeltaTime) override;
+
+ // The device ID opened by the Video Stream
+ UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Webcam)
+ int32 CameraID;
+
+ // If the webcam images should be resized every frame
+ UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Webcam)
+ bool ShouldResize;
+
+ // The targeted resize width and height (width, height)
+ UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Webcam)
+ FVector2D ResizeDeminsions;
+
+ // The rate at which the color data array and video texture is updated (in frames per second)
+ UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = Webcam)
+ float RefreshRate;
+
+ // The refresh timer
+ UPROPERTY(BlueprintReadWrite, Category = Webcam)
+ float RefreshTimer;
+
+ // Blueprint Event called every time the video frame is updated
+ UFUNCTION(BlueprintImplementableEvent, Category = Webcam)
+ void OnNextVideoFrame();
+
+ // OpenCV fields
+ cv::Mat frame;
+ cv::VideoCapture stream;
+ cv::Size size;
+
+ // OpenCV prototypes
+ void UpdateFrame();
+ void UpdateTexture();
+
+ // If the stream has succesfully opened yet
+ UPROPERTY(BlueprintReadOnly, Category = Webcam)
+ bool isStreamOpen;
+
+ // The videos width and height (width, height)
+ UPROPERTY(BlueprintReadWrite, Category = Webcam)
+ FVector2D VideoSize;
+
+ // The current video frame&#x27;s corresponding texture
+ UPROPERTY(BlueprintReadOnly, Category = Webcam)
+ UTexture2D* VideoTexture;
+
+ // The current data array
+ UPROPERTY(BlueprintReadOnly, Category = Webcam)
+ TArray Data;
+
+protected:
+
+ // Use this function to update the texture rects you want to change:
+ // NOTE: There is a method called UpdateTextureRegions in UTexture2D but it is compiled WITH_EDITOR and is not marked as ENGINE_API so it cannot be linked
+ // from plugins.
+ // FROM: https://wiki.unrealengine.com/Dynamic_Textures
+ void UpdateTextureRegions(UTexture2D* Texture, int32 MipIndex, uint32 NumRegions, FUpdateTextureRegion2D* Regions, uint32 SrcPitch, uint32 SrcBpp, uint8* SrcData, bool bFreeData);
+
+ // Pointer to update texture region 2D struct
+ FUpdateTextureRegion2D* VideoUpdateTextureRegion;
+
+};</code></pre><h3 id="0380e612-cf7c-4f85-85f7-943f80b04162" class="">Source</h3><pre id="c3df2b10-100f-44a7-8910-a51d6165e9a1" class="code"><code>// Fill out your copyright notice in the Description page of Project Settings.
+
+#include &quot;WebCamReader.h&quot;
+#include &quot;CV.h&quot; 
+#include 
+
+// Sets default values
+AWebCamReader::AWebCamReader()
+{
+  // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don&#x27;t need it.
+ PrimaryActorTick.bCanEverTick = true;
+
+ // Initialize OpenCV and webcam properties
+ CameraID = 0;
+ RefreshRate = 15;
+ isStreamOpen = false;
+ VideoSize = FVector2D(0, 0);
+ ShouldResize = false;
+ ResizeDeminsions = FVector2D(320 , 240);
+ RefreshTimer = 0.0f;
+ stream = cv::VideoCapture();
+ frame = cv::Mat();
+}
+
+// Called when the game starts or when spawned
+void AWebCamReader::BeginPlay()
+{
+ Super::BeginPlay();
+ 
+ // Open the stream
+ stream.open(CameraID);
+ if (stream.isOpened())
+ {
+  // Initialize stream
+  isStreamOpen = true;
+  UpdateFrame();
+  VideoSize = FVector2D(frame.cols, frame.rows);
+  size = cv::Size(ResizeDeminsions.X, ResizeDeminsions.Y);
+  VideoTexture = UTexture2D::CreateTransient(VideoSize.X , VideoSize.Y );
+  VideoTexture-&gt;UpdateResource();
+  VideoUpdateTextureRegion = new FUpdateTextureRegion2D(0, 0, 0, 0, VideoSize.X, VideoSize.Y);
+
+  // Initialize data array
+  Data.Init(FColor(0, 0, 0, 255), VideoSize.X * VideoSize.Y);
+
+  // Do first frame
+  UpdateTexture();
+  OnNextVideoFrame();
+ }
+}
+
+// Called every frame
+void AWebCamReader::Tick(float DeltaTime)
+{
+ Super::Tick(DeltaTime);
+
+ RefreshTimer += DeltaTime;
+ if (isStreamOpen &amp;&amp; RefreshTimer &gt;= 1.0f / RefreshRate)
+ {
+  RefreshTimer -= 1.0f / RefreshRate;
+  UpdateFrame();
+  UpdateTexture();
+  OnNextVideoFrame();
+ }
+}
+
+void AWebCamReader::UpdateFrame()
+{
+ if (stream.isOpened())
+ {
+  stream.read(frame);
+  if (ShouldResize)
+  {
+   cv::resize(frame, frame, size);
+  }
+ }
+ else {
+  isStreamOpen = false;
+ }
+}
+
+void AWebCamReader::UpdateTexture()
+{
+ if (isStreamOpen &amp;&amp; frame.data)
+ {
+  // Copy Mat data to Data array
+  for (int y = 0; y &lt; VideoSize.Y; y++)
+  {
+   for (int x = 0; x &lt; VideoSize.X; x++)
+   {
+    int i = x + (y * VideoSize.X);
+    Data[i].B = frame.data[i * 3 + 0];
+    Data[i].G = frame.data[i * 3 + 1];
+    Data[i].R = frame.data[i * 3 + 2];
+   }
+  }
+
+  // Update texture 2D
+  UpdateTextureRegions(VideoTexture, (int32)0, (uint32)1, VideoUpdateTextureRegion, (uint32)(4 * VideoSize.X), (uint32)4, (uint8*)Data.GetData(), false);
+ }
+}
+
+void AWebCamReader::UpdateTextureRegions(UTexture2D* Texture, int32 MipIndex, uint32 NumRegions, FUpdateTextureRegion2D* Regions, uint32 SrcPitch, uint32 SrcBpp, uint8* SrcData, bool bFreeData)
+{
+ if (Texture-&gt;Resource)
+ {
+  struct FUpdateTextureRegionsData
+  {
+   FTexture2DResource* Texture2DResource;
+   int32 MipIndex;
+   uint32 NumRegions;
+   FUpdateTextureRegion2D* Regions;
+   uint32 SrcPitch;
+   uint32 SrcBpp;
+   uint8* SrcData;
+  };
+
+  FUpdateTextureRegionsData* RegionData = new FUpdateTextureRegionsData;
+
+  RegionData-&gt;Texture2DResource = (FTexture2DResource*)Texture-&gt;Resource;
+  RegionData-&gt;MipIndex = MipIndex;
+  RegionData-&gt;NumRegions = NumRegions;
+  RegionData-&gt;Regions = Regions;
+  RegionData-&gt;SrcPitch = SrcPitch;
+  RegionData-&gt;SrcBpp = SrcBpp;
+  RegionData-&gt;SrcData = SrcData;
+
+  ENQUEUE_RENDER_COMMAND(UpdateTextureRegionsData)(
+  [RegionData, bFreeData](FRHICommandListImmediate&amp; RHICmdList)
+  {
+   for (uint32 RegionIndex = 0; RegionIndex &lt; RegionData-&gt;NumRegions; ++RegionIndex)
+   {
+    int32 CurrentFirstMip = RegionData-&gt;Texture2DResource-&gt;GetCurrentFirstMip();
+    if (RegionData-&gt;MipIndex &gt;= CurrentFirstMip)
+    {
+     RHIUpdateTexture2D(
+      RegionData-&gt;Texture2DResource-&gt;GetTexture2DRHI(),
+      RegionData-&gt;MipIndex - CurrentFirstMip,
+      RegionData-&gt;Regions[RegionIndex],
+      RegionData-&gt;SrcPitch,
+      RegionData-&gt;SrcData
+      + RegionData-&gt;Regions[RegionIndex].SrcY * RegionData-&gt;SrcPitch
+      + RegionData-&gt;Regions[RegionIndex].SrcX * RegionData-&gt;SrcBpp
+     );
+    }
+   }
+   if (bFreeData)
+   {
+    FMemory::Free(RegionData-&gt;Regions);
+    FMemory::Free(RegionData-&gt;SrcData);
+   }
+   delete RegionData;
+  });
+ }
+}</code></pre><p id="2a36fe3d-51d8-4011-a41d-c73c1d5c51c6" class="">
+</p><blockquote id="da4a6107-8165-4469-b68a-2066ab437b7f" class="">Note: <strong>‘ENQUEUE_UNIQUE_RENDER_COMMAND_TWOPARAMETER’</strong> 在4.22版本要改成使用<strong>&#x27;ENQUEUE_RENDER_COMMAND&#x27;</strong>，這邊我是使用4.22，若是之前版本則不用更改(代碼參考源文檔)</blockquote><figure id="f7798953-5b8d-4310-8927-f7078dd5fa60" class="image"><a href="https://live.staticflickr.com/65535/49972527517_23382c723b_b.jpg"><img src="https://live.staticflickr.com/65535/49972527517_23382c723b_b.jpg"/></a></figure><h1 id="0dfea40c-0698-4fc1-a7f1-07a693e1f06c" class="">Blueprint中使用</h1><p id="be9cd31a-fda6-4767-bd78-e828ad8ea45d" class="">新增一個Material命名為M_Webcam。ShadeMode設定Unlit，新增一個Texture parameter命名為Texture並接上Emissive Color</p><figure id="b1f25908-a8ca-4684-b59a-871f450d3587" class="image"><a href="https://upload.cc/i1/2020/06/06/O3aVjd.png"><img style="width:384px" src="https://upload.cc/i1/2020/06/06/O3aVjd.png"/></a></figure><p id="9abd891d-617a-4c08-adc0-bb330af5e1d9" class="">新增一個blueprint命名為BP_WebCamBillboard，Class繼承AWebCamReader。</p><p id="e3328273-3794-47cd-b67e-0348f270ad2e" class="">
+</p><p id="8da8ceca-6c43-4ff9-91fc-6989af05b80b" class="">打開BP_WebCamBillboard並新增一個Cube Static Mesh Component，攝像頭獲取到的textures將渲染在這上面。</p><p id="59081f6b-bd0a-4427-a372-9793a1d8c8b3" class="">
+</p><p id="c096c6ef-c938-4739-a4b7-78cb7a1a35f9" class="">新增一個 Material Instance Dynamic變數命名為Dynamic Material，並照上圖配置藍圖</p><figure id="2cb5852d-b515-42f4-9169-cc36673bcdd9" class="image"><a href="https://live.staticflickr.com/65535/49972266071_794f3f35f3_b.jpg"><img src="https://live.staticflickr.com/65535/49972266071_794f3f35f3_b.jpg"/></a></figure><p id="e51a4c22-4abb-4aca-9c70-1c8f35b43d7f" class="">將BP_WebCamBillboard放進level，Play就可以看到畫面囉，cheers!</p><figure id="c03ff46e-b02d-4ddd-a717-c4c8f5d43a77" class="image"><a href="https://live.staticflickr.com/65535/49972266056_ffd94f728d_z.jpg"><img src="https://live.staticflickr.com/65535/49972266056_ffd94f728d_z.jpg"/></a></figure><h1 id="0f2cfd1c-7918-4249-8771-22a5ce955d51" class="">References</h1><figure id="960160d3-8dff-437d-afe1-640154517b08"><a href="https://wiki.unrealengine.com/Detailed_Account_Of_Integrating_OpenCV_Into_UE4_With_VS2017" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">A new, community-hosted Unreal Engine Wiki</div><div class="bookmark-description">After over a year in maintenance mode, the official Unreal Engine Wiki is now permanently offline. These resources now live on a new community-run Unreal Engine Community Wiki - ue4community.wiki (https://ue4community.wiki)! You will be able to find content from the official Unreal Engine Wiki at ue4community.wiki/legacy</div></div><div class="bookmark-href"><img src="https://forums.unrealengine.com/favicon.ico" class="icon bookmark-icon"/>https://wiki.unrealengine.com/Detailed_Account_Of_Integrating_OpenCV_Into_UE4_With_VS2017</div></div><img src="https://forums.unrealengine.com/core/images/default/default_avatar_medium.png" class="bookmark-image"/></a></figure></div></article></body></html>

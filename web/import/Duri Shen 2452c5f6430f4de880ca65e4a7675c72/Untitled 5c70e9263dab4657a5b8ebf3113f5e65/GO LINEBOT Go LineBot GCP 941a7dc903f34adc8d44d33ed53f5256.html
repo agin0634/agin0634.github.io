@@ -1,0 +1,685 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>[GO/LINEBOT] 使用Go佈屬LineBot到GCP</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="941a7dc9-03f3-4adc-8d44-d33ed53f5256" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1535378917042-10a22c95931a?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb&amp;ixid=eyJhcHBfaWQiOjYzOTIxfQ" style="object-position:center 14.370000000000005%"/><h1 class="page-title">[GO/LINEBOT] 使用Go佈屬LineBot到GCP</h1><table class="properties"><tbody><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z"></path></svg></span>Created</th><td><time>@Jun 19, 2020 2:13 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td><span class="selected-value select-value-color-blue">Go</span></td></tr></tbody></table></header><div class="page-body"><blockquote id="4b53c971-d6f7-4aa6-9318-3c4eb0eb5443" class="">前陣子因為工作需要弄一隻Linebot所以就記下這篇。寫Linebot的語言很多種，就選了沒用過的Go試試看。大部分網上教學都是佈署在Heroku，而我選擇在我比較常用的Google Could Platform。</blockquote><h1 id="3785fd33-ea1a-42ae-8f6c-391891aa7ffc" class="">安裝Golang</h1><p id="2ca0ba59-c077-45f7-a3c6-14b18a13f961" class="">基本上安裝不會有甚麼問題，主要是GOPATH的設定，參考這篇</p><figure id="f2ef4d3e-6446-407d-ab8d-04aa5090681d"><a href="https://programnoteforlearning.blogspot.com/2017/08/windows-golang.html" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Windows golang 安裝</div><div class="bookmark-description">學習 golang 起手式必須先安裝好 golang 與設定好環境變數。 還是下一步 安裝完之後需要設定環境變數。 需要設定的環境變數為以下。 GOROOT、GOPATH、GOBIN GOROOT 為放置 Golang 本身函式庫與 go 指令的地方不要與 GOPATH 相同 GOROOT 與 GOPATH 應該要分別放置，GOROOT 就是剛剛上方的 Golang 安裝裡面的 bin。 GOPATH 就是放置你專案的地方。 GOPATH 裡面需要建立三個資料夾分別為 src 、 bin 、 pkg ( 三個資料夾需要手動建立 ) src ：放置 import lib 與 你的 go 專案 pkg：放置經由 go install 指令安裝後的程式套件，包含 go 原始編譯過後的 .a壓縮檔 。 bin：與 pkg 類似放置 go install 後的執行檔 ex.</div></div><div class="bookmark-href"><img src="https://programnoteforlearning.blogspot.com/favicon.ico" class="icon bookmark-icon"/>https://programnoteforlearning.blogspot.com/2017/08/windows-golang.html</div></div><img src="https://1.bp.blogspot.com/-_PVdP6bDqp8/WYnU4MvsPiI/AAAAAAAAFMQ/jEtjBkpm67U371UwqM51cupWscW_skcHwCLcBGAs/w1200-h630-p-k-no-nu/1.png" class="bookmark-image"/></a></figure><h1 id="cf6e7363-d761-4850-9a6b-4391a4de382d" class="">Line-bot-sdk-go</h1><p id="9b757b8a-3e3d-4a17-b169-627458d64fed" class="">Line官方有提供Go的SDK，基本上不用修改就可以直接使用。回覆訊息、回覆圖片等大部分平常會使用的功能都有提供</p><figure id="69fb21b5-d7d3-42e3-984d-b53d385a2748"><a href="https://github.com/line/line-bot-sdk-go" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">line/line-bot-sdk-go</div><div class="bookmark-description">The LINE Messaging API SDK for Go makes it easy to develop bots using LINE Messaging API, and you can create a sample bot within minutes. See the official API documentation for more information. This library requires Go 1.10 or later. $ go get github.com/line/line-bot-sdk-go/linebot The LINE Messaging API uses the JSON data format.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/line/line-bot-sdk-go</div></div><img src="https://avatars2.githubusercontent.com/u/13128444?s=400&amp;v=4" class="bookmark-image"/></a></figure><p id="3576f620-890b-418c-bacf-3e316697174c" class="">先安裝官方提供的SDK</p><pre id="c198b12e-5f34-4605-99de-7c543557bc46" class="code"><code>$ go get github.com/line/line-bot-sdk-go/linebot</code></pre><p id="18fe5d54-de16-4977-b4d9-48dec611696d" class="">這邊以echobot.go作為範本，基本上就是一個學你講話的機器人</p><pre id="0319b87a-cdbb-4b1c-a49f-5a483d50f770" class="code"><code>package main
+
+import (
+	&quot;fmt&quot;
+	&quot;log&quot;
+	&quot;net/http&quot;
+	&quot;os&quot;
+
+	&quot;github.com/line/line-bot-sdk-go/linebot&quot;
+)
+
+func main() {
+	bot, err := linebot.New(
+		os.Getenv(&quot;CHANNEL_SECRET&quot;), os.Getenv(&quot;CHANNEL_TOKEN&quot;),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	http.HandleFunc(&quot;/callback&quot;, func(w http.ResponseWriter, req *http.Request) {
+		events, err := bot.ParseRequest(req)
+		if err != nil {
+			if err == linebot.ErrInvalidSignature {
+				w.WriteHeader(400)
+			} else {
+				w.WriteHeader(500)
+			}
+			return
+		}
+
+		for _, event := range events {
+			if event.Type == linebot.EventTypeMessage {
+				switch message := event.Message.(type) {
+				case *linebot.TextMessage:
+					if _, err = bot.ReplyMessage(
+						event.ReplyToken,
+						linebot.NewTextMessage(message.Text)).Do(); err != nil {
+						log.Fatal(err)
+					}
+				case *linebot.StickerMessage:
+					replyMessage := fmt.Sprintf(
+						&quot;sticker id is %s, stickerType is %s&quot;, message.StickerID, message.StickerResourceType)
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(replyMessage)).Do(); err != nil {
+						log.Fatal(err)
+					}
+				}
+			}
+		}
+	})
+
+	if err := http.ListenAndServe(&quot;:&quot;+os.Getenv(&quot;PORT&quot;), nil); err != nil {
+		log.Fatal(err)
+	}
+}</code></pre><p id="849ac6a0-3bfe-4abb-b18a-a7727d06b933" class="">創建一個<strong>app.yaml</strong>檔案並貼上下面程式碼</p><blockquote id="0109c501-c751-4a04-9973-eb0209b3eec6" class="">app.yaml是用來設定執行環境和設定基本參數。詳細參考<a href="https://cloud.google.com/appengine/docs/standard/php/config/appref">https://cloud.google.com/appengine/docs/standard/php/config/appref</a></blockquote><p id="95ecc8c8-f842-40a9-92bf-1a897bf35f50" class="">
+</p><p id="43188b0e-57d7-42ad-b2a8-60389c2ee51c" class="">接著填上你的<strong>CHANNEL_SECRET</strong>和<strong>CHANNEL_TOKEN</strong></p><pre id="00e28f08-d9b0-48ad-866e-9afd7641acda" class="code"><code># [START runtime]
+runtime: go111
+env: standard
+
+env_variables:
+    CHANNEL_SECRET: yourChannelSecret
+    CHANNEL_TOKEN: yourChannelToken
+# [END runtime]</code></pre><h1 id="0e43b010-f450-42a5-8b78-07b186505dea" class="">Google Cloud Platform</h1><p id="13c33736-a9f0-4ab3-81e0-3c5cb282647c" class="">會選擇使用GCP最主要的原因就是它提供的服務太多太完整了，而這次我們要佈署在Google App Engine的服務上面</p><p id="33c2126b-5653-45a9-9a51-41c9e4b5e496" class="">
+</p><p id="32ebbbe0-9cd1-4380-a1a4-45949d52dec9" class="">新增一個專案，專案名稱後面會用到</p><figure id="f1ab6316-a732-4305-842c-fcd7be28a9d1" class="image"><a href="https://upload.cc/i1/2020/06/24/dph4yT.png"><img style="width:576px" src="https://upload.cc/i1/2020/06/24/dph4yT.png"/></a></figure><p id="c73e017d-7a4b-473e-8c35-e2ed16f38540" class="">創建成功後會看到這畫面</p><figure id="10c178a6-d511-4666-b9c9-c9358896c401" class="image"><a href="https://upload.cc/i1/2020/06/24/3gdjnS.png"><img src="https://upload.cc/i1/2020/06/24/3gdjnS.png"/></a></figure><p id="312a8ece-5e6c-45c2-bfcc-2c73b4ca42b6" class="">選擇專案的機房位置</p><figure id="8b29b6f7-0712-44b8-be71-9ceff21e13b9" class="image"><a href="https://upload.cc/i1/2020/06/24/4maX9N.png"><img src="https://upload.cc/i1/2020/06/24/4maX9N.png"/></a></figure><p id="cbbc1a49-d89b-44fc-8477-65652744a7c8" class="">最後選擇要使用的語言，這裡選Go</p><figure id="80a7ce32-21f1-4c5b-bc3d-35fa9de37215" class="image"><a href="https://upload.cc/i1/2020/06/24/OFjEho.png"><img src="https://upload.cc/i1/2020/06/24/OFjEho.png"/></a></figure><p id="77b62344-ca0a-47b2-935a-05745f76e2a4" class="">接下來就要用Google Cloud SDK佈署囉</p><h1 id="1d094485-385b-4fd1-8d01-82f8be8f3a91" class="">Google Cloud SDK</h1><p id="784d6a35-2a8a-48fa-91f6-ad346be34a69" class="">首先，下載Google Cloud SDK</p><figure id="01ca8032-a38c-4795-b632-ac0be9d5e35b"><a href="https://cloud.google.com/sdk/docs/quickstart-windows" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Quickstart for Windows | Cloud SDK Documentation | Google Cloud</div><div class="bookmark-description">Send feedback If you are behind a proxy/firewall, see the This page shows how to install the Google Cloud SDK, initialize it, and run core gcloud commands from the command-line. Note: proxy settings page for more information on installation. Create a Google Cloud Platform project, if you don&#x27;t have one already.</div></div><div class="bookmark-href"><img src="https://www.gstatic.com/devrel-devsite/prod/vec8054dd6c74f1424e7592d63d6d2872d5c94cd4d7afe1dc4e818c4ad10419d1/cloud/images/favicons/onecloud/favicon.ico" class="icon bookmark-icon"/>https://cloud.google.com/sdk/docs/quickstart-windows</div></div><img src="https://cloud.google.com/images/social-icon-google-cloud-1200-630.png" class="bookmark-image"/></a></figure><p id="072c77a4-c249-40dc-9ac9-7fe66d988c1e" class="">按照步驟安裝，接著到要佈署的檔案路徑在CMD輸入</p><pre id="faa8d5d0-f096-4846-9846-9a60ae60d646" class="code"><code>$ gcloud app deploy</code></pre><p id="56ad534b-12eb-4cb8-a3f6-5e0bea6d0b84" class="">選擇佈署目標專案</p><figure id="38a021c4-4c93-4fcb-8499-c1ba8d16419e" class="image"><a href="https://upload.cc/i1/2020/06/24/CyG6JR.png"><img src="https://upload.cc/i1/2020/06/24/CyG6JR.png"/></a></figure><p id="25dbe776-e1e7-4bb8-acf5-30a633555bc5" class="">佈署成功後會得到一個網址</p><figure id="e59fa743-f4c8-4f41-9075-d884aa0c40b4" class="image"><a href="https://upload.cc/i1/2020/06/24/rhQw9x.png"><img src="https://upload.cc/i1/2020/06/24/rhQw9x.png"/></a></figure><p id="ea709aeb-f21e-4f47-bdd0-e9d5a71c74c5" class="">到Line Developer頻道頁面Webhook settings貼上網址並加上<strong>&quot;/callback&quot;</strong></p><figure id="547694cd-c125-459c-a563-023683da21b6" class="image"><a href="https://upload.cc/i1/2020/06/24/ZQIrNL.png"><img src="https://upload.cc/i1/2020/06/24/ZQIrNL.png"/></a></figure><p id="b036ba85-1456-462f-9f3f-77be5dad3810" class="">最後到Line測試一下，它若學你講話就是佈署成功囉。接著就可以增加自己想要的功能</p><figure id="a6ce09ab-f639-48cb-bc53-bf5fe3f6bfcd" class="image"><a href="https://upload.cc/i1/2020/06/24/VzJFSO.png"><img style="width:384px" src="https://upload.cc/i1/2020/06/24/VzJFSO.png"/></a></figure><p id="ead6eb1c-8502-4b6c-a84f-17f2887a87a3" class="">
+</p></div></article></body></html>
