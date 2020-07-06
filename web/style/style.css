@@ -1,10 +1,17 @@
+article {
+	-webkit-print-color-adjust: exact;
+	box-sizing: border-box;
+	margin: 0em auto;
+	max-width: 900px;
+	color: rgb(55, 53, 47);
+}
 
 header {
 	margin-bottom: 20px;
 }
 
 .page-body {
-	line-height: 2;
+	/*line-height: 2;*/
 }
 
 a,

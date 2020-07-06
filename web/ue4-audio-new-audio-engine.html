@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Meta Tag -->
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <!-- SEO -->
+  <meta content="Hi,我是Duri Shen,現職為Unreal Engine Developer." name="description"/>
+  <meta content="duri shen" name="author"/>
+  <meta content="duri shen" name="copyright"/>
+  <meta content="index,follow" name="robots"/>
+  <title>
+   Duri Shen 開發筆記
+  </title>
+  <link href="https://agin0634.github.io/web/style/style.css" rel="stylesheet"/>
+  <link href="https://agin0634.github.io/web/style/google-code-prettify/prettify.css" rel="stylesheet" type="text/css"/>
+  <script src="https://agin0634.github.io/web/style/google-code-prettify/prettify.js" type="text/javascript">
+  </script>
+  <!-- Favicon -->
+  <link href="style/images/favicon/favicon.ico" rel="shortcut icon">
+   <link href="style/images/favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="144x144" type="image/x-icon">
+    <!-- All CSS Plugins -->
+    <link href="style/css/plugin.css" rel="stylesheet" type="text/css"/>
+    <!-- Main CSS Stylesheet -->
+    <link href="style/css/style.css" rel="stylesheet" type="text/css"/>
+    <!-- Google Web Fonts  -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700" rel="stylesheet"/>
+    <!-- HTML5 shiv and Respond.js support IE8 or Older for HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+	   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+   </link>
+  </link>
+ </head>
+ <body onload="PR.prettyPrint()">
+  <!-- Preloader Start -->
+  <div class="preloader">
+   <div class="rounder">
+   </div>
+  </div>
+  <!-- Preloader End -->
+  <div id="main">
+   <div class="container">
+    <div class="row">
+     <!-- About Me (Left Sidebar) Start -->
+     <div class="col-md-3">
+      <div class="about-fixed">
+       <div class="my-pic">
+        <img alt="" src="style/images/pic/my-pic.png"/>
+        <a class="collapsed" data-target="#menu" data-toggle="collapse" href="javascript:void(0)">
+         <i class="icon-menu menu">
+         </i>
+        </a>
+        <div class="collapse" id="menu">
+         <ul class="menu-link">
+          <li>
+           <a href="about.html">
+            About
+           </a>
+          </li>
+          <li>
+           <a href="work.html">
+            Work
+           </a>
+          </li>
+          <li>
+           <a href="contact.html">
+            Contact
+           </a>
+          </li>
+         </ul>
+        </div>
+       </div>
+       <div class="my-detail">
+        <div class="white-spacing">
+         <h1>
+          Duri Shen
+         </h1>
+         <span>
+          Unreal Engine Developer
+         </span>
+        </div>
+        <ul class="social-icon">
+         <li>
+          <a class="linkedin" href="https://www.linkedin.com/in/shih-che-shen-583837167/" target="_blank">
+           <i class="fa fa-linkedin">
+           </i>
+          </a>
+         </li>
+         <li>
+          <a class="github" href="https://github.com/agin0634" target="_blank">
+           <i class="fa fa-github">
+           </i>
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <!-- About Me (Left Sidebar) End -->
+     <!-- Blog Post (Right Sidebar) Start -->
+     <div class="col-md-9">
+      <div class="col-md-12 page-body">
+       <div class="row">
+        <div class="sub-title">
+         <h2>
+          My Blog
+         </h2>
+         <a href="contact.html">
+          <i class="icon-envelope">
+          </i>
+         </a>
+        </div>
+        <div class="col-md-12 content-page">
+         <!-- Blog Post Start -->
+         <!-- Blog Post End -->
+         <body>
+          <article class="page sans" id="c5e095ae-e9ca-4c42-adef-7f73fbcc2834">
+           <header>
+            <img class="page-cover-image" src="https://images.unsplash.com/photo-1535406208535-1429839cfd13?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 50%"/>
+            <h1 class="page-title">
+             [UE4/AUDIO] NEW AUDIO ENGINE啟動設定
+            </h1>
+            <table class="properties">
+             <tbody>
+              <tr class="property-row property-row-created_time">
+               <th>
+                <span class="icon property-icon">
+                 <svg class="typesCreatedAt" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" viewbox="0 0 14 14">
+                  <path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z">
+                  </path>
+                 </svg>
+                </span>
+                Created
+               </th>
+               <td>
+                <time>
+                 @Jun 5, 2020 4:19 PM
+                </time>
+               </td>
+              </tr>
+              <tr class="property-row property-row-multi_select">
+               <th>
+                <span class="icon property-icon">
+                 <svg class="typesMultipleSelect" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" viewbox="0 0 14 14">
+                  <path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z">
+                  </path>
+                 </svg>
+                </span>
+                Tags
+               </th>
+               <td>
+                <span class="selected-value select-value-color-gray">
+                 UE4
+                </span>
+               </td>
+              </tr>
+             </tbody>
+            </table>
+           </header>
+           <div class="page-body">
+            <blockquote class="" id="fdc9fb93-eb0f-4069-b5a7-eeeb983a5877">
+             UE4發佈了新的audio功能，但還在測試階段，所以需要透過改參數將其啟用
+            </blockquote>
+            <h1 class="" id="2a9f8a02-74f7-4e5a-8b25-4d5822e9cf16">
+             通過Window設置WindowEngine.ini
+            </h1>
+            <p class="" id="4ef7d83b-c668-4352-8428-824d32d5e6e9">
+             在engine資料夾下找到
+            </p>
+            <p class="" id="e086e328-b3c1-4787-b161-f04f461a25bf">
+             "
+             <strong>
+              WindowsEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="be10c6d5-15a2-46f9-8e46-0bfe72edb2ad">
+             <strong>
+              "\Engine\Config\Windows\WindowsEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="4a1395ac-6958-4627-b49b-45cf75263780">
+             或專案資料夾
+            </p>
+            <p class="" id="f76da0ad-6952-46d9-b15c-dae5c34ecb42">
+             <strong>
+              "\Config\Windows\WindowsEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="6d15014f-d9a9-445a-9466-58702a486fea">
+             (若沒找到可自己建立)
+            </p>
+            <p class="" id="ff4302f4-7b4d-4909-bec9-3da5419a04f5">
+            </p>
+            <p class="" id="83e7d9c2-b063-4d19-a2b4-d35be71fed0a">
+             打開檔案，加上:
+            </p>
+            <pre class="code" id="a0d48b39-e8ae-457c-a773-5326385a02ab"><code>[Audio]
+AudioDeviceModuleName=AudioMixerXAudio2</code></pre>
+            <h1 class="" id="ae2ea3ee-5941-4e7f-ad2d-2cb59b6364ae">
+             通過Mac設置MacEngine.ini
+            </h1>
+            <p class="" id="7ba92883-46ee-4bb9-ad8e-3331b138d9dd">
+             在engine資料夾下找到
+            </p>
+            <p class="" id="c21f1d6f-1100-4b97-9cb8-6a80806e660a">
+             <strong>
+              "MacEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="5c0fefa3-5707-4a2a-9c9a-a1a1e5171781">
+             "
+             <strong>
+              \Engine\Config\Mac\MacEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="5e9fe733-29c2-4dc0-9453-d2025cb17c9b">
+             或專案資料夾
+            </p>
+            <p class="" id="15ed3de0-6bbc-4050-a26e-3adf0a37aea7">
+             <strong>
+              "\Config\Mac\MacEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="40217c66-4bd8-4d0f-8836-06d2b09e342c">
+             (若沒找到可自己建立)
+            </p>
+            <p class="" id="b5e29ff7-cdf6-4141-88b6-ce8fcffb2744">
+            </p>
+            <p class="" id="34f71706-1d65-42d2-bc24-5c4248705071">
+             打開檔案，加上:
+            </p>
+            <pre class="code" id="4d254c09-dc64-4eda-8d93-15dde571d0c0"><code>[Audio]
+AudioDeviceModuleName=AudioMixerAudioUnit</code></pre>
+            <h1 class="" id="b8ff494e-8a2b-4fda-a629-9dba20c4b3cd">
+             通過iOS設置IOSEngine.ini
+            </h1>
+            <p class="" id="6b5c91bd-0fea-49f6-aed2-050a679298c1">
+             在engine資料夾下找到
+            </p>
+            <p class="" id="903a1800-8207-4482-b22b-179af5fa9d56">
+             <strong>
+              "IOSEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="8c044e70-2155-4822-8788-036cc621db9b">
+             <strong>
+              "\Engine\Config\IOS\IOSEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="966dd8a5-b9db-4b8e-a414-82b82295207a">
+             或專案資料夾
+            </p>
+            <p class="" id="ea68edf2-82b9-4cb7-8df3-5ba2dddec459">
+             <strong>
+              "\Config\IOS\IOSEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="542ba659-e734-46af-8d81-ab8850e304ad">
+             (若沒找到可自己建立)
+            </p>
+            <p class="" id="fd75ee97-ca0c-413a-830e-55fe332cb3b2">
+            </p>
+            <p class="" id="3bed2eef-076d-4fd0-af44-372c542149d6">
+             打開檔案，加上:
+            </p>
+            <pre class="code" id="1d59239c-7cd5-42d1-b0b6-c3165d7b814e"><code>[Audio]
+AudioDeviceModuleName=AudioMixerAudioUnit</code></pre>
+            <h1 class="" id="7cf5a594-b82d-415e-9eca-5afc40462122">
+             通過Android設置AndroidEngine.ini
+            </h1>
+            <p class="" id="92f95b58-b3d0-406f-b618-6c2ac135b439">
+             在engine資料夾下找到
+            </p>
+            <p class="" id="c339e1d3-f7b4-40a6-b1f8-9bb54b5ae177">
+             <strong>
+              "AndroidEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="0ae0899d-28b0-4fef-ae86-daf028c7dcbe">
+             <strong>
+              "\Engine\Config\Android\AndroidEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="a8c8ff3c-1b99-4aba-8e5d-20894ffeea7c">
+             或專案資料夾
+            </p>
+            <p class="" id="0209a67a-f38d-40af-b58b-5c200c5939d9">
+             <strong>
+              "\Config\Android\AndroidEngine.ini"
+             </strong>
+            </p>
+            <p class="" id="c8a83820-d41a-4a69-8cf6-a57a9e53fe6e">
+             (若沒找到可自己建立)
+            </p>
+            <p class="" id="6920110d-7f78-4be7-980b-0b415f7314d8">
+            </p>
+            <p class="" id="f6be833f-b12b-4bc5-b63c-e6fd4ea2c2b7">
+             打開檔案，加上:
+            </p>
+            <pre class="code" id="bbd0c80a-1b9c-4223-adea-a2f48e63a776"><code>[Audio]
+AudioDeviceModuleName=AudioMixerAndroid</code></pre>
+            <h1 class="" id="04116094-d3c1-4b97-9a31-9bf57590a3cd">
+             啟動New Audio Engine UE4Editor
+            </h1>
+            <p class="" id="4f8dea7d-2d29-4de6-b68b-1278e40a4bf5">
+             在engine資料夾下建立UE4Editor.exe的捷徑
+             <strong>
+              ("\Engine\Binaries")
+             </strong>
+            </p>
+            <figure class="image" id="6241c31e-f884-45cf-9679-45e48aa53da6">
+             <a href="https://live.staticflickr.com/65535/49972949911_81ba769614_z.jpg">
+              <img src="https://live.staticflickr.com/65535/49972949911_81ba769614_z.jpg" style="width:624px"/>
+             </a>
+            </figure>
+            <p class="" id="e713a738-3a0f-447d-a8fc-92d3195c40e1">
+             在捷徑內容中在目標後加上:
+             <strong>
+              -audiomixer
+             </strong>
+            </p>
+            <figure class="image" id="08cd3a8a-d851-449b-81c9-4be43361650a">
+             <a href="https://live.staticflickr.com/65535/49972431773_a5fcf9117e_z.jpg">
+              <img src="https://live.staticflickr.com/65535/49972431773_a5fcf9117e_z.jpg" style="width:384px"/>
+             </a>
+            </figure>
+            <p class="" id="7e5889b8-35f9-4c40-9cf7-eba664f820ee">
+             從此捷徑打開專案即可
+            </p>
+            <figure class="image" id="4016edb2-0310-4159-a605-0483bcda4837">
+             <a href="https://live.staticflickr.com/65535/49972953916_2aee12a514_z.jpg">
+              <img src="https://live.staticflickr.com/65535/49972953916_2aee12a514_z.jpg" style="width:624px"/>
+             </a>
+            </figure>
+            <h1 class="" id="37a5a07c-86cf-43ce-86fb-db4935436a73">
+             References
+            </h1>
+            <p class="" id="a0fb3b8c-b19b-4a2c-a105-dcd8cca2f78e">
+             New Audio Engine: Early Access Quick-Start Guide
+            </p>
+            <figure id="9a2d6344-80c0-4513-ab84-a550593bc20d">
+             <a class="bookmark source" href="https://forums.unrealengine.com/development-discussion/audio/116874-new-audio-engine-early-access-quick-start-guide">
+              <div class="bookmark-info">
+               <div class="bookmark-text">
+                <div class="bookmark-title">
+                 New Audio Engine: Early Access Quick-Start Guide
+                </div>
+                <div class="bookmark-description">
+                 Discuss and get help with the new Audio Engine, sound design, third-party tools/middleware, and share what you're working on!
+                </div>
+               </div>
+               <div class="bookmark-href">
+                <img class="icon bookmark-icon" src="https://forums.unrealengine.com/favicon.ico"/>
+                https://forums.unrealengine.com/development-discussion/audio/116874-new-audio-engine-early-access-quick-start-guide
+               </div>
+              </div>
+              <img class="bookmark-image" src="https://forums.unrealengine.com/filedata/fetch?id=1217722"/>
+             </a>
+            </figure>
+           </div>
+          </article>
+         </body>
+         <div class="col-md-12 text-center">
+          <!--
+          <a class="load-more-button" href="javascript:void(0)" id="load-more-post">
+           Load
+          </a>
+         -->
+          <div id="post-end-message">
+          </div>
+         </div>
+        </div>
+       </div>
+       <!-- Subscribe Form Start -->
+       <div class="col-md-8 col-md-offset-2">
+        <form action="http://uipasta.us14.list-manage.com/subscribe/post?u=854825d502cdc101233c08a21&amp;id=86e84d44b7" id="mc-form" method="post">
+         <div class="subscribe-form margin-top-20">
+          <input class="text-input" id="mc-email" placeholder="Email Address" type="email"/>
+          <button class="submit-btn" type="submit">
+           Submit
+          </button>
+         </div>
+         <p>
+          Subscribe to my weekly newsletter
+         </p>
+         <label class="mc-label" for="mc-email">
+         </label>
+        </form>
+       </div>
+       <!-- Subscribe Form End -->
+      </div>
+      <!-- Footer Start -->
+      <div class="col-md-12 page-body margin-top-50 footer">
+       <footer>
+        <ul class="menu-link">
+         <li>
+          <a href="index.html">
+           Home
+          </a>
+         </li>
+         <li>
+          <a href="about.html">
+           About
+          </a>
+         </li>
+         <li>
+          <a href="work.html">
+           Work
+          </a>
+         </li>
+         <li>
+          <a href="contact.html">
+           Contact
+          </a>
+         </li>
+        </ul>
+        <p>
+         © Copyright 2016 DevBlog. All rights reserved
+        </p>
+        <!-- UiPasta Credit Start -->
+        <div class="uipasta-credit">
+         Design By
+         <a href="http://www.uipasta.com" target="_blank">
+          UiPasta
+         </a>
+        </div>
+        <!-- UiPasta Credit End -->
+       </footer>
+      </div>
+      <!-- Footer End -->
+     </div>
+     <!-- Blog Post (Right Sidebar) End -->
+    </div>
+   </div>
+  </div>
+  <!-- Back to Top Start -->
+  <a class="scroll-to-top" href="#">
+   <i class="fa fa-long-arrow-up">
+   </i>
+  </a>
+  <!-- Back to Top End -->
+  <!-- All Javascript Plugins  -->
+  <script src="style/js/jquery.min.js" type="text/javascript">
+  </script>
+  <script src="style/js/plugin.js" type="text/javascript">
+  </script>
+  <!-- Main Javascript File  -->
+  <script src="style/js/scripts.js" type="text/javascript">
+  </script>
+ </body>
+</html>
