@@ -4,6 +4,7 @@ article {
 	margin: 0em auto;
 	max-width: 900px;
 	color: rgb(55, 53, 47);
+	line-height: 2;
 }
 
 header {
@@ -142,6 +143,7 @@ thead {
 
 .properties {
 	width: 400px;
+	height: 70px;
 }
 
 .table_of_contents-item {

@@ -170,7 +170,7 @@
             <p class="" id="3f4fff5b-d7e8-44d9-acf4-074dc76bd2ff">
              首先，安裝Selenium。沒甚麼問題，一行搞定
             </p>
-            <pre class="code" id="150b2d34-b87e-48cb-a457-3c92c587ccc8"><code>pip install selenium</code></pre>
+            <pre class="prettyprint" id="150b2d34-b87e-48cb-a457-3c92c587ccc8"><code>pip install selenium</code></pre>
             <h1 class="" id="c8ed4e26-81b8-471a-8dff-91695d6fafcb">
              安裝WebDriver
             </h1>
@@ -209,7 +209,7 @@
             <p class="" id="33c32695-11f3-4c32-b49a-69801947bc62">
              先簡單的測試能不能打開Facebook
             </p>
-            <pre class="code" id="dc391d59-fa0d-4389-bdde-d6563131816d"><code>from selenium import webdriver
+            <pre class="prettyprint" id="dc391d59-fa0d-4389-bdde-d6563131816d"><code>from selenium import webdriver
 
 url = 'https://zh-tw.facebook.com/'
 
@@ -254,7 +254,7 @@ driver.get(url)</code></pre>
              </strong>
              來尋找
             </p>
-            <pre class="code" id="ab8e038d-d8a4-415d-bede-a47a50b87c80"><code>driver.find_element_by_id()</code></pre>
+            <pre class="prettyprint" id="ab8e038d-d8a4-415d-bede-a47a50b87c80"><code>driver.find_element_by_id()</code></pre>
             <p class="" id="353e973d-af84-418a-aa96-04786dd3a83e">
              回到瀏覽器，按下F12找到email input box的id，password同理
             </p>
@@ -270,7 +270,7 @@ driver.get(url)</code></pre>
              </strong>
              填入自己的帳號密碼
             </p>
-            <pre class="code" id="4b39f426-b4a6-4429-bfb3-b7f9e3f089b9"><code>driver.find_element_by_id('email').send_keys(emailaddress)
+            <pre class="prettyprint" id="4b39f426-b4a6-4429-bfb3-b7f9e3f089b9"><code>driver.find_element_by_id('email').send_keys(emailaddress)
 driver.find_element_by_id('pass').send_keys(password)</code></pre>
             <p class="" id="83fca60a-d7b4-4b7f-a14f-ce49fd59b00f">
              接著，找到login按鈕的id，使用
@@ -279,11 +279,11 @@ driver.find_element_by_id('pass').send_keys(password)</code></pre>
              </strong>
              模擬滑鼠點擊
             </p>
-            <pre class="code" id="533e5d1c-b312-4beb-a9c0-4bdcc9620c7c"><code>driver.find_element_by_id('loginbutton').click()</code></pre>
+            <pre class="prettyprint" id="533e5d1c-b312-4beb-a9c0-4bdcc9620c7c"><code>driver.find_element_by_id('loginbutton').click()</code></pre>
             <p class="" id="82680072-3084-424f-9f7f-5d39937d8ee6">
              完整代碼:
             </p>
-            <pre class="code" id="1998bccb-508d-4fd9-871e-aa32b433489d"><code>from selenium import webdriver
+            <pre class="prettyprint" id="1998bccb-508d-4fd9-871e-aa32b433489d"><code>from selenium import webdriver
 
 url = 'https://zh-tw.facebook.com/'
 
