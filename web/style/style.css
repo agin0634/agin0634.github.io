@@ -38,7 +38,7 @@ h3 {
 .page-title {
 	font-size: 2.5rem;
 	font-weight: 700;
-	margin-top: 1em;
+	/*margin-top: 1em;*/
 	margin-bottom: 0.75em;
 }
 
@@ -329,7 +329,7 @@ img.icon {
 }
 
 .page-header-icon-with-cover {
-	margin-top: -0.72em;
+	margin-top: -1.5em;
 	margin-left: 0.07em;
 }
 
@@ -403,6 +403,7 @@ blockquote {
 	margin: 1em 0;
 	padding-left: 1em;
 	border-left: 3px solid #1abc9c;
+	word-break: break-all;
 }
 
 .bookmark {
