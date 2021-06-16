@@ -1611,6 +1611,10 @@
 .black-text {
   color: #000000 !important; }
 
+.dark {
+  background-color: #353535 !important;
+}
+
 .white {
   background-color: #FFFFFF !important; }
 
@@ -2198,7 +2202,7 @@ table {
     text-align: center; }
 
 thead {
-  border-bottom: 1px solid #d0d0d0; }
+  border-bottom: 1px solid #353535; }
 
 td, th {
   padding: 15px 5px;
@@ -4816,6 +4820,25 @@ span.badge {
     content: "";
     display: table;
     clear: both; }
+
+  .row .col_Info {
+    float: left;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 0rem; }
+    .row .col_Info.s12 {
+      width: 100%;
+      margin-left: 0; }
+      @media only screen and (min-width : 601px) {
+        .row .col_Info.m12 {
+          width: 100%;
+          margin-left: 0; } }
+      @media only screen and (min-width : 993px) {
+        .row .col_Info.l6 {
+          width: 50%;
+          margin-left: 0; }}
+    
   .row .col {
     float: left;
     -webkit-box-sizing: border-box;
@@ -5149,7 +5172,7 @@ html {
   line-height: 1.5;
   font-family: "Roboto", sans-serif;
   font-weight: normal;
-  color: rgba(0, 0, 0, 0.87); }
+  color: #929292; }
   @media only screen and (min-width: 0) {
     html {
       font-size: 14px; } }
@@ -5350,8 +5373,8 @@ small {
   position: relative;
   overflow: hidden;
   margin: 0.5rem 0 1rem 0;
-  background-color: #fff;
-  border-radius: 2px; }
+  background-color: #353535;
+  border-radius: 0px; }
   .card .card-title {
     color: #fff;
     font-size: 24px;
@@ -5406,8 +5429,8 @@ small {
     padding: 20px;
     border-radius: 0 0 2px 2px; }
     .card .card-content p {
-      margin: 0;
-      color: inherit; }
+      color: #929292;
+      margin: 0; }
     .card .card-content .card-title {
       line-height: 48px; }
   .card .card-action {
@@ -5427,7 +5450,7 @@ small {
   .card .card-reveal {
     padding: 20px;
     position: absolute;
-    background-color: #FFF;
+    background-color: #353535;
     width: 100%;
     overflow-y: auto;
     top: 100%;
