@@ -1,14 +1,4 @@
 [
-    /*
-    {
-        "title":"title", 
-        "href":"href",
-        "last_time":"time",
-        "tags":["tag1", "tag2", "tag3"],
-        "cover_img":"img href",
-        "thumbnail":"thumnail href",
-        "description":"description"
-    }*/
     {
         "title":"UE4 Test Post", 
         "href":"href",
