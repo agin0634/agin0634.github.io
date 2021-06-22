@@ -753,6 +753,17 @@ transition: background-color 0.5s ease-in-out;
   margin-right: 10px;
 }
 
+.single-meta i {
+  display: inline-block;
+  font-size: 20px;
+  line-height: 27px;
+  margin-right: 3px;
+}
+
+.single-meta span {
+  display: inline-block;
+  font-size: 16px;
+}
 
 .blog-post .card-action {
   float: left;
