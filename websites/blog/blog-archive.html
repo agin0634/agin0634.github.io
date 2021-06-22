@@ -247,45 +247,7 @@
                     <!-- Start Single Sidebar -->
                     <div class="single-sidebar">
                       <h3>Recent News</h3>
-                      <!-- Single Recent News -->
-                      <div class="recent-news">
-                        <div class="recent-img">
-                          <a href="blog-single.html"><img src="../img/blog1.jpg" alt="img"></a>
-                        </div>
-                        <div class="recent-body">
-                          <h4><a href="blog-single.html">Recent News Title Title Title Title Title</a></h4>
-                        </div>
-                      </div>
-                      <!-- Single Recent News -->
-                      <div class="recent-news">
-                        <div class="recent-img">
-                          <a href="blog-single.html"><img src="../img/blog2.jpg" alt="img"></a>
-                        </div>
-                        <div class="recent-body">
-                          <h4><a href="blog-single.html">Recent News Title</a></h4>
-                        </div>
-                      </div>
-                      <!-- Single Recent News -->
-                      <div class="recent-news">
-                        <div class="recent-img">
-                          <a href="blog-single.html"><img src="../img/blog3.jpg" alt="img"></a>
-                        </div>
-                        <div class="recent-body">
-                          <h4><a href="blog-single.html">Recent News Title</a></h4>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Start Single Sidebar -->
-                    <div class="single-sidebar">
-                      <h3>Categories</h3>
-                      <!-- Single Category -->
-                      <ul>
-                        <li class="cat-item"><a href="#">Graphics</a></li>
-                        <li class="cat-item"><a href="#">Inspiration</a></li>
-                        <li class="cat-item"><a href="#">Web Design</a></li>
-                        <li class="cat-item"><a href="#">Web Development</a></li>
-                        <li class="cat-item"><a href="#">WordPress</a></li>
-                      </ul>
+                      <div class="recent-news-bar">
                     </div>
                      <!-- Start Single Sidebar -->
                     <div class="single-sidebar">
@@ -351,6 +313,21 @@
       </div>
       <!-- jQuery Library -->
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript">
+        $.ajax({
+            type: 'GET', 
+            url: 'https://agin0634.github.io/websites/blog/postData.json', 
+            dataType: 'json',
+            success: function (response) { 
+                $.each(response, function(index, element) {
+                    $('.recent-news-bar').append(
+                        '<div class="recent-news"><div class="recent-img"><a href="'+element.href+'"><img src="'+element.thumbnail+'" alt="img"></a></div><div class="recent-body"><h4><a href="blog-single.html">'+element.title+'</a></h4></div></div>'
+                    );
+                });
+            },
+            error:function(err){console.log(err)},
+        });
+      </script>
       <!-- Materialize js -->
       <script type="text/javascript" src="../js/materialize.min.js"></script>
       <!-- Skill Progress Bar -->

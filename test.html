@@ -41,25 +41,18 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript">
             $.ajax({
-                type: "get",
-                url: "https://agin0634.github.io/websites/blog/postData.json",
-                dataType: "json",
+                type: 'GET', 
+                url: 'https://agin0634.github.io/websites/blog/postData.json', 
+                dataType: 'json',
                 success: function (response) { 
                     $.each(response, function(index, element) {
-                        console.log(err);
                         $('.info').append(
-                            $('<li>', 
-                            {text: [index+1]+'.'+'名稱：'+element.title}),
-                            $('<li>',
-                            {text: [index+1]+'.'+'地址：'+element.href}),
-                            $('<p>')
-                            );
+                            '<div class="recent-news"><div class="recent-img"><a href="'+element.href+'"><img src="'+element.thumbnail+'" alt="img"></a></div><div class="recent-body"><h4><a href="blog-single.html">'+element.title+'</a></h4></div></div>'
+                        );
                     });
                 },
                 error:function(err){console.log(err)},
             });
-        
-        
         </script>
         <!-- Materialize js -->
         <script type="text/javascript" src="websites/js/materialize.min.js"></script>
